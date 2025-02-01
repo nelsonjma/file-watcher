@@ -12,7 +12,7 @@ services:
     expose:
       - "8082"
     ports:
-      - "8080:8082"
+      - "8082:3000"
     volumes:
       - ./server:/app
     command:
