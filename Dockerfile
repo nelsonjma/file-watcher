@@ -19,6 +19,11 @@ RUN apt-get update -y && \
     sudo \
     xz-utils
 
+# remove user ubuntu 
+RUN touch /var/mail/ubuntu && \
+    chown ubuntu /var/mail/ubuntu && \
+    userdel -r ubuntu
+
 # create local user
 ARG UNAME
 ARG UID

@@ -10,9 +10,9 @@ services:
     user: xyon
     restart: "always"
     expose:
-      - "8081"
+      - "8082"
     ports:
-      - "3000:8081"
+      - "8080:8082"
     volumes:
       - ./server:/app
     command:
