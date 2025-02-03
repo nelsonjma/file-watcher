@@ -91,10 +91,10 @@ app.get("/changed/:path/:time", (req: Request, res: Response) => {
   const changePath = req.params.path;
   const time = req.params.time;
   const changeFolder = `${globalRootPath}/${changePath}`;
-  const files: string[] = [];
+  let files: string[] = [];
 
   try {
-    const files = listFiles(changeFolder)
+    files = listFiles(changeFolder)
       .map(readFileStat)
       .filter((f) => f.time > time)
       .map((f) => f.name.replace(`${changeFolder}/`, ""));

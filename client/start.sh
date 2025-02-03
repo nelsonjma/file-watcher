@@ -1,4 +1,4 @@
 deno run --allow-read --allow-net --allow-write main.ts \
-  --url="http://localhost:3000" \
-  --inPath="/code/javascript/deno/watcher/tests/client_2/client_1_folder" \
-  --outPath="/code/javascript/deno/watcher/tests/client_1/client_1_folder"
+  --url="http://192.168.2.30:8082" \
+  --inPath="/code/javascript/deno/file-watcher/tests/remote_desk" \
+  --outPath="/code/javascript/deno/file-watcher/tests/linux_big_pc"

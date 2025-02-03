@@ -60,15 +60,15 @@ function main() {
       const { path, kind } = event.data;
       console.log(`[%s] %s`, kind, path);
 
-      if (kind === "access") {
-        gOutWorkerServer.postMessage({
-          type: "upload",
-          payload: { url: `${serverUrl}/upload/${outRootFolder}`, rootPath: outRootPath, filePath: path },
-        });
-      } else if (kind === "remove") {
+      if (kind === "remove") {
         gOutWorkerServer.postMessage({
           type: "remove",
           payload: { url: `${serverUrl}/remove/${outRootFolder}`, rootPath: outRootPath, filePath: path },
+        });
+      } else {
+        gOutWorkerServer.postMessage({
+          type: "upload",
+          payload: { url: `${serverUrl}/upload/${outRootFolder}`, rootPath: outRootPath, filePath: path },
         });
       }
     };
