@@ -73,6 +73,7 @@ app.get("/changed/:path/:time", (req: Request, res: Response) => {
     files = listFiles(changeFolder)
       .map(readFileStat)
       .filter((f) => f.time > time)
+      .filter((f) => f.name.indexOf(`${changePath}/tmp/`) === -1) // remove tmp folder
       .map((f) => f.name.replace(`${changeFolder}/`, ""));
 
     for (const file of files) {
