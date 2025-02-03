@@ -2,45 +2,21 @@ import express, { Request, Response } from "npm:express@4.18.2";
 import bodyParser from "npm:body-parser@1.19.0";
 import multer from "npm:multer@1.4.5-lts.1";
 
-import { unixTsToDt, listFiles, readFileStat, dtToUnixTs } from "./utils.ts";
+import { listFiles, readFileStat } from "./utils.ts";
 
 function moveFileToDestination(userFolder: string, filename: string, subfolder: string, remoteTime: number) {
   const destinationPath =
     subfolder !== "" ? `${userFolder}/${subfolder}/${filename}` : `${userFolder}/${filename}`;
   const destinationFolder = `${userFolder}/${subfolder}`;
   const tmpPath = `${userFolder}/tmp/${filename}`; // ! this does not contain sub folder
-  const conflictFolder = `${userFolder}/conflict`;
-  const conflictPath = `${userFolder}/conflict/${filename}_${remoteTime}`;
 
   try {
-    // get local file if already exists
-    const localFileStat = Deno.statSync(destinationPath);
-
-    const localTime = localFileStat.mtime === null ? 0 : dtToUnixTs(localFileStat.mtime);
-
-    const localDt = unixTsToDt(localTime).toLocaleString();
-    const remoteDt = unixTsToDt(remoteTime).toLocaleString();
-
-    if (remoteTime < localTime) {
-      // move new file to conflit folder
-      console.log(`[${userFolder}] conflit ${filename}: local: ${localDt}) / remote: ${remoteDt}`);
-      console.log(`---- local: ${localTime} / remote: ${remoteTime}`);
-      Deno.mkdirSync(conflictFolder, { recursive: true });
-      Deno.copyFileSync(tmpPath, conflictPath);
-    } else {
-      // if the file already exists it will overwrite the file.
-      console.log(`[${userFolder}] replace ${filename}: local: ${localDt}) / remote: ${remoteDt}`);
-      Deno.copyFileSync(tmpPath, destinationPath);
-    }
+    // its a new file, copy to final file location
+    console.log(`[${userFolder}] new file ${filename}.`);
+    Deno.mkdirSync(destinationFolder, { recursive: true });
+    Deno.copyFileSync(tmpPath, destinationPath);
   } catch (error) {
-    if (error.name === "NotFound") {
-      // its a new file, copy to final file location
-      console.log(`[${userFolder}] new file ${filename}.`);
-      Deno.mkdirSync(destinationFolder, { recursive: true });
-      Deno.copyFileSync(tmpPath, destinationPath);
-    } else {
-      console.log(error);
-    }
+    console.log(error);
   }
 
   // remove tmp file

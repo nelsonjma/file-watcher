@@ -1,4 +1,6 @@
+# @reboot . /watcher/client/run_watcher.sh
+
 deno run --allow-read --allow-net --allow-write main.ts \
-  --url="http://192.168.2.30:8082" \
-  --inPath="/code/javascript/deno/file-watcher/tests/remote_desk" \
-  --outPath="/code/javascript/deno/file-watcher/tests/linux_big_pc"
+  --url="http://localhost:8080" \
+  --inPath="/watcher/tests/remote_desk" \
+  --outPath="/watcher/tests/linux_big_pc"
