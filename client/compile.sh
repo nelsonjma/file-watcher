@@ -4,5 +4,4 @@
     --include=modules/watch-file-worker.ts \
     --include *.ts \
     -o watcher_client \
-    --target x86_64-pc-windows-msvc \
     main.ts

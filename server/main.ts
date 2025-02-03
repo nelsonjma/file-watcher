@@ -91,13 +91,19 @@ app.get("/changed/:path/:time", (req: Request, res: Response) => {
   const changePath = req.params.path;
   const time = req.params.time;
   const changeFolder = `${globalRootPath}/${changePath}`;
-  const files = listFiles(changeFolder)
-    .map(readFileStat)
-    .filter((f) => f.time > time)
-    .map((f) => f.name.replace(`${changeFolder}/`, ""));
+  const files: string[] = [];
 
-  for (const file of files) {
-    console.log(`[${changePath}] changed file ${file}`);
+  try {
+    const files = listFiles(changeFolder)
+      .map(readFileStat)
+      .filter((f) => f.time > time)
+      .map((f) => f.name.replace(`${changeFolder}/`, ""));
+
+    for (const file of files) {
+      console.log(`[${changePath}] changed file ${file}`);
+    }
+  } catch (error) {
+    console.log(`[${changePath}] failed to check for changes with error ${error}`);
   }
 
   res.send(JSON.stringify(files));
