@@ -8,7 +8,7 @@ function moveFileToDestination(userFolder: string, filename: string, subfolder: 
   const destinationPath =
     subfolder !== "" ? `${userFolder}/${subfolder}/${filename}` : `${userFolder}/${filename}`;
   const destinationFolder = `${userFolder}/${subfolder}`;
-  const tmpPath = `${userFolder}/tmp/${filename}`; // ! this does not contain sub folder
+  const tmpPath = `${userFolder}/tmp/${filename}`;
 
   try {
     // its a new file, copy to final file location
@@ -29,7 +29,7 @@ const globalRootPath = "uploads";
 const storage = multer.diskStorage({
   destination: function (req: Request, file, cb) {
     // create tmp path for the file
-    // TODO! add subfolder to here.
+
     // const destinationPath = subfolder !== "" ? `${userFolder}/${subfolder}/${filename}` : `${userFolder}/${filename}`;
     const uploadTmpFolder = `${globalRootPath}/${req.params.path}/tmp`;
     Deno.mkdirSync(uploadTmpFolder, { recursive: true });
